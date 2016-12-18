@@ -34,6 +34,15 @@ def main():
     x = b.get(s[0], s[1], s[2])
     #x = [None if b == "" else b for b in x]
     pprint(x)
+    while (1):
+        inp = input("pyble>")
+        inpu = ["pyble"] + inp.split(" ")
+        s = getScripture(inpu)
+        print(s)
+        b = Pyble()
+        x = b.get(s[0], s[1], s[2])
+        #x = [None if b == "" else b for b in x]
+        pprint(x)
 
 
 def getScripture(request):
