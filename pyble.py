@@ -1,4 +1,4 @@
-import sys, json
+import sys, json, readline
 from pprint import pprint
 
 class Pyble:
@@ -8,7 +8,12 @@ class Pyble:
         #pprint(self.Bible)
 
     def getBook(self, book):
-        return self._Bible.get(book)
+        ret = {}
+        d = list(self._Bible.get(book).keys())
+        print(d)
+        for key in sorted(d, key=lambda s: int(s)):
+            ret[str(key)] = self._Bible[str(key)]
+        return ret
 
     def getChapter(self, book, chapter):
         return self.getBook(book).get(chapter)
