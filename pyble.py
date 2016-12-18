@@ -8,12 +8,7 @@ class Pyble:
         #pprint(self.Bible)
 
     def getBook(self, book):
-        ret = {}
-        d = list(self._Bible.get(book).keys())
-        print(d)
-        for key in sorted(d, key=lambda s: int(s)):
-            ret[str(key)] = self._Bible[str(key)]
-        return ret
+        return self._Bible.get(book)
 
     def getChapter(self, book, chapter):
         return self.getBook(book).get(chapter)
@@ -39,6 +34,7 @@ def main():
     x = b.get(s[0], s[1], s[2])
     #x = [None if b == "" else b for b in x]
     pprint(x)
+    print(json.dumps(x, sort_keys=True, indent=4))
     while (1):
         inp = input("pyble>")
         inpu = ["pyble"] + inp.split(" ")
@@ -49,6 +45,15 @@ def main():
         #x = [None if b == "" else b for b in x]
         pprint(x)
 
+def printSorted(scripture):
+    ret = {}
+    d = list(self._Bible.get(book).keys())
+    print(d)
+    for key in sorted(d, key=lambda s: int(s)):
+        print(key)
+        print(ret[str(key)])
+        ret[str(key)] = self._Bible[str(key)]
+    return ret
 
 def getScripture(request):
     length = len(request);
