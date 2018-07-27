@@ -27,27 +27,35 @@ class Pyble:
             return None
 
     def printSorted(self, scripture):
-        ret = {}
-        d = list(scripture.keys())
-        for key in sorted(d, key=lambda s: int(s)):
-            print(key)
-            ret[str(key)] = self._Bible[str(key)]
-            print(ret[str(key)])
-        return ret
+        sorted_dict = {}
+        if scripture == None:
+            return
+        elif type(scripture) != dict:
+            print(scripture)
+        else:
+            keys = list(scripture.keys())
+            for key in sorted(keys, key=lambda s: int(s)):
+                intKey = int(key)
+                if type(scripture[key]) != dict:
+                    sorted_dict[intKey] = str(scripture[key])
+                else:
+                    sorted_dict[intKey] = {}
+                    keys2 = list(scripture[key].keys())
+                    for key2 in sorted(keys2, key=lambda s: int(s)):
+                        intKey2 = int(key2)
+                        sorted_dict[intKey][intKey2] = scripture[key][key2]
+            pprint(sorted_dict)
 
 def main():
     s = getScripture(" ".join(sys.argv))
     bible = Pyble()
     x = bible.get(s[0], s[1], s[2])
-    pprint(x)
-    print(json.dumps(x, sort_keys=True, indent=4))
+    bible.printSorted(x)
     while (1):
         request = raw_input("pyble>")
         s = getScripture(request)
-        print(s)
         x = bible.get(s[0], s[1], s[2])
-        #bible.printSorted(x)
-        pprint(x)
+        bible.printSorted(x)
 
 def getScripture(request):
     request = request.split(" ")
