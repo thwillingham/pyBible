@@ -5,7 +5,7 @@ class Pyble:
     def __init__(self):
         with open('ESV.json') as xfile:
             self._Bible = json.load(xfile)
-        #pprint(self.Bible)
+            #pprint(self._Bible)
 
     def getBook(self, book):
         return self._Bible.get(book)
@@ -26,44 +26,39 @@ class Pyble:
         else:
             return None
 
+    def printSorted(self, scripture):
+        ret = {}
+        d = list(scripture.keys())
+        for key in sorted(d, key=lambda s: int(s)):
+            print(key)
+            ret[str(key)] = self._Bible[str(key)]
+            print(ret[str(key)])
+        return ret
 
 def main():
-    s = getScripture(sys.argv)
-    print(s)
-    b = Pyble()
-    x = b.get(s[0], s[1], s[2])
-    #x = [None if b == "" else b for b in x]
+    s = getScripture(" ".join(sys.argv))
+    bible = Pyble()
+    x = bible.get(s[0], s[1], s[2])
     pprint(x)
     print(json.dumps(x, sort_keys=True, indent=4))
     while (1):
-        inp = input("pyble>")
-        inpu = ["pyble"] + inp.split(" ")
-        s = getScripture(inpu)
+        request = raw_input("pyble>")
+        s = getScripture(request)
         print(s)
-        b = Pyble()
-        x = b.get(s[0], s[1], s[2])
-        #x = [None if b == "" else b for b in x]
+        x = bible.get(s[0], s[1], s[2])
+        #bible.printSorted(x)
         pprint(x)
 
-def printSorted(scripture):
-    ret = {}
-    d = list(self._Bible.get(book).keys())
-    print(d)
-    for key in sorted(d, key=lambda s: int(s)):
-        print(key)
-        print(ret[str(key)])
-        ret[str(key)] = self._Bible[str(key)]
-    return ret
-
 def getScripture(request):
+    request = request.split(" ")
     length = len(request);
-    if length == 1: return [None, None, None]
-    elif length == 2: return [request[1], None, None]
-    elif length == 3:
-        temp = request[2].split(":")
+    if length == 1: return [request[0], None, None]  # Mark
+    elif length == 2:
+        temp = request[1].split(":")
         if len(temp) > 1:
-            return [request[1], temp[0], temp[1]]
-        else: return [request[1], temp[0], None]
+            return [request[0], temp[0], temp[1]]  # Mark 1:2
+        else: return [request[0], temp[0], None]  # Mark 1
+    elif length == 3: return [request[0], request[1], request[2]]  # Mark 1 2
 
 
 if __name__=='__main__':
